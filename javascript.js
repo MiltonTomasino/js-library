@@ -9,6 +9,10 @@ function Book(title, author, pageNum, read, id) {
     this.id = id;
     this.pageNum = pageNum,
     this.read = read
+
+    this.toggleRead = function () {
+        this.read = !this.read;
+    }
 }
 
 function addBookToLibrary(title, author, pageNum, read) {
