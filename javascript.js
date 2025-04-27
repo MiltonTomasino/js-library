@@ -39,13 +39,13 @@ function displayLibrary() {
 
     for (let i = 0; i < myLibrary.length; i++) {
         let book = myLibrary[i];
-        let child = createCardElement(book);
+        let child = createCardElement(book, i);
     
         container.insertBefore(child, newBookBtn)
     }
 }
 
-function createCardElement(book) {
+function createCardElement(book, index) {
     let child = document.createElement("div");
     child.classList.add("card");
 
@@ -82,6 +82,21 @@ function createCardElement(book) {
     checkbox.checked = book.read;
 
     div2.appendChild(checkbox);
+
+    let deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Delete";
+    deleteBtn.id = book.id;
+    deleteBtn.classList.add("delete-btn");
+
+    deleteBtn.addEventListener("click", (e) => {
+        console.log(book.id);
+        console.log(index);
+        
+        myLibrary.splice(index, 1);
+        displayLibrary();
+    })
+    
+    child.appendChild(deleteBtn)
 
     return child;
 }
