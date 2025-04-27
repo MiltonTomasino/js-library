@@ -23,15 +23,39 @@ addBookToLibrary("Hyperion", "Dan Simmons");
 
 console.log(myLibrary);
 console.log(myLibrary[0].title);
+let container = document.querySelector(".container");
 
 
-const container = document.querySelector(".container");
+function displayLibrary() {
+    for (let i = 0; i < myLibrary.length; i++) {
+        let child = document.createElement("div");
+        child.classList.add("card");
+        child.textContent = `${myLibrary[i].title} by ${myLibrary[i].author}`;
 
-
-for(let i = 0; i < myLibrary.length; i++) {
-    let child = document.createElement("div");
-    child.classList.add("card");
-    child.textContent = `${myLibrary[i].title} by ${myLibrary[i].author}`;
-
-    container.appendChild(child);
+        container.appendChild(child);
+    }
 }
+
+let newBookBtn = document.querySelector("#new-book");
+let modal = document.querySelector(".modal");
+
+newBookBtn.addEventListener("click", () => {
+    modal.showModal();
+})
+
+let addBookBtn = document.querySelector("#add-book");
+
+addBookBtn.addEventListener("click", (e) => {
+    e.preventDefault(); // prevent browser from refreshing on submit
+    
+    let title = document.querySelector("#title");
+    let author = document.querySelector("#author");
+
+    addBookToLibrary(title.value, author.value);
+    container.innerHTML = "";
+    displayLibrary()
+    modal.close();
+
+})
+
+displayLibrary();
