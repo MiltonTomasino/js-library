@@ -23,22 +23,65 @@ addBookToLibrary("Childhood's End", "Arthur C. Clarke", 224, true);
 addBookToLibrary("Mistborn: The Final Empire", "Brandon Sanderson", 655, true);
 addBookToLibrary("Hyperion", "Dan Simmons", 481, false);
 
-console.log(myLibrary);
-console.log(myLibrary[0].title);
+// console.log(myLibrary);
+// console.log(myLibrary[0].title);
 let container = document.querySelector(".container");
+let newBookBtn = document.querySelector("#new-book");
 
 
 function displayLibrary() {
-    for (let i = 0; i < myLibrary.length; i++) {
-        let child = document.createElement("div");
-        child.classList.add("card");
-        child.textContent = `${myLibrary[i].title} by ${myLibrary[i].author}\nPage Count: ${myLibrary[i].pageNum} Read: ${myLibrary[i].read}`;
+    const oldCards = document.querySelectorAll(".card");
+    oldCards.forEach(card => card.remove());
 
-        container.appendChild(child);
+    for (let i = 0; i < myLibrary.length; i++) {
+        let book = myLibrary[i];
+        let child = createCardElement(book);
+    
+        container.insertBefore(child, newBookBtn)
     }
 }
 
-let newBookBtn = document.querySelector("#new-book");
+function createCardElement(book) {
+    let child = document.createElement("div");
+    child.classList.add("card");
+
+    let div1 = document.createElement("div");
+    div1.classList.add("info1");
+    child.appendChild(div1);
+
+    let div2 = document.createElement("div");
+    div2.classList.add("info2")
+    child.appendChild(div2);
+
+    let text = document.createElement("h2");
+    text.textContent = `${book.title}`;
+
+    div1.appendChild(text);
+
+    let subtitle = document.createElement("p");
+    subtitle.textContent = `by ${book.author}`;
+
+    div1.appendChild(subtitle);
+
+
+    let info = document.createElement("p");
+    info.textContent = `Page Count: ${book.pageNum}`;
+
+    div2.appendChild(info);
+
+    let label = document.createElement("label");
+    label.textContent = "Read:";
+    div2.appendChild(label)
+
+    let checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.checked = book.read;
+
+    div2.appendChild(checkbox);
+
+    return child;
+}
+
 let modal = document.querySelector(".modal");
 
 newBookBtn.addEventListener("click", () => {
@@ -56,9 +99,14 @@ addBookBtn.addEventListener("click", (e) => {
     let read = document.querySelector("#read-status");
 
     addBookToLibrary(title.value, author.value, pageNum.value, read.checked);
-    container.innerHTML = "";
+    
     displayLibrary()
     modal.close();
+
+    title.value = "";
+    author.value = "";
+    pageNum.value = "";
+    read.checked = false;
 
 })
 
