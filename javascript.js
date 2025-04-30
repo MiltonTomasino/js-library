@@ -1,16 +1,15 @@
 const myLibrary = [];
 
-function Book(title, author, pageNum, read, id) {
-    if (!new.target) {
-        throw Error("new not used to create Book Object.")
+class Book {
+    constructor(title, author, pageNum, read, id) {
+        this.title = title;
+        this.author = author;
+        this.id = id;
+        this.pageNum = pageNum;
+        this.read = read;
     }
-    this.title = title;
-    this.author = author;
-    this.id = id;
-    this.pageNum = pageNum,
-    this.read = read
 
-    this.toggleRead = function () {
+    toggleRead() {
         this.read = !this.read;
     }
 }
